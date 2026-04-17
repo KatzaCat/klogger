@@ -27,9 +27,9 @@ Another way you can use this:
     k::Logger::printCurrentLog();
 ```
 
-## Building / Testing
+## Testing
 
-If you wish to build it, you'll need a few requirements:
+If you wish to test klooger, you'll need a few requirements installed:
 
 - [cmake](https://cmake.org/)
 - some sort of build system (recommended to use [GNU-Make and MinGW](https://www.mingw-w64.org/))
