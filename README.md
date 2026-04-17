@@ -31,8 +31,8 @@ Another way you can use this:
 
 If you wish to build it you'll need few requirements:
 
-- cmake
-- some sort of build system (recommended to use GNU-Make and MinGW)
+- [cmake](https://cmake.org/)
+- some sort of build system (recommended to use [GNU-Make and MinGW](https://www.mingw-w64.org/))
 
 After making sure you have a way to build it you can;
 
