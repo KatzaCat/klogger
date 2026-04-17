@@ -41,6 +41,11 @@ After making sure you have a way to build it you can;
 Run either the ```build-make.bat```, or the ```build-make-test.bat``` file
 depending on weather or not you wanna test it, or just build information.
 
+>[!CAUTION]
+> These two build files spacificly only run with [GNU-Make and MinGW](https://www.mingw-w64.org/)
+> so be sure to have them if you wish to use the ```build-make.bat```, or the ```build-make-test.bat``` file!
+> If you dont then you'll have to build it manualy!
+
 ### On any other OS
 
 You'll unfortunatly have to build it your-self, you could also just copy the
