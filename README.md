@@ -17,7 +17,7 @@ The main idea is as fallows:
 Another way you can use this:
 
 ```c++
-    k::Logger::pushNewLog("message", ERROR); // WARNING: will override previous pushed
+    k::Logger::pushNewLog("message", k::ERROR); // WARNING: will override previous pushed
     
     // PullResult has 2 members; message of type std::string,
     // and log_level
