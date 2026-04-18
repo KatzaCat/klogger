@@ -3,6 +3,21 @@
 #include <cstdio>
 #include <cstdlib>
 
+#include "color.hpp"
+
+/* 
+ * The output of the standard log should look like this:
+ *
+ * [dd/mm/yy | hh:mm:ss] LOGLEVEL message
+ *
+ * The LOGLEVEL should be colord as such
+ *   INFO:     White
+ *   DEBUG:    Grey
+ *   WARNING:  Yellow
+ *   ERROR:    Red
+ *   CRITICAL: Bright Red
+ */
+
 // what will be used as the "pull" functions
 static k::PullResult _current_log = {};
 
@@ -12,19 +27,19 @@ static const std::string logSeverityToString(k::LogSeverity log_severity) {
 
   switch (log_severity) {
     case k::INFO:
-      log_severity_string = "INFO";
+      log_severity_string = k::col::make_white("INFO");
       break;
     case k::DEBUG:
-      log_severity_string = "DEBUG";
+      log_severity_string = k::col::make_grey("DEBUG");
       break;
     case k::WARNING:
-      log_severity_string = "WARNING";
+      log_severity_string = k::col::make_yellow("WARNING");
       break;
     case k::ERROR:
-      log_severity_string = "ERROR";
+      log_severity_string = k::col::make_red("ERROR");
       break;
     case k::CRITICAL:
-      log_severity_string = "CRITICAL";
+      log_severity_string = k::col::make_bright_red("CRITICAL");
       break;
 
     default: break;
@@ -34,6 +49,9 @@ static const std::string logSeverityToString(k::LogSeverity log_severity) {
 }
 
 // Basic logging methods
+
+static void log(k::LogSeverity log_severity, const std::string message) {
+}
 
 void k::Logger::info(const std::string message) {
   std::printf("%-8s %s\n", logSeverityToString(k::INFO).c_str(), message.c_str());
@@ -52,7 +70,7 @@ void k::Logger::error(const std::string message) {
 }
 
 void k::Logger::critical(const std::string message) {
-  std::printf("%-8s %s\n", logSeverityToString(k::CRITICAL).c_str(), message.c_str());
+  std::printf("%50s %s\n", logSeverityToString(k::CRITICAL).c_str(), message.c_str());
   exit(-1);
 }
 
