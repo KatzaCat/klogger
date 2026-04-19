@@ -1,6 +1,6 @@
 #include "klogger.hpp"
 
-#include <cstdio>
+#include <print>
 #include <cstdlib>
 
 #include "color.hpp"
@@ -21,56 +21,66 @@
 // what will be used as the "pull" functions
 static k::PullResult _current_log = {};
 
+// Stores the color and text sepaeately
+struct SeverityResult {
+  std::string text = "";
+  std::string color = "";
+};
+
 // returns the log severity as a string, makes it so i dont have to type this all out manualy :3
-static const std::string logSeverityToString(k::LogSeverity log_severity) {
-  std::string log_severity_string = "";
+static SeverityResult logSeverityResult(k::LogSeverity log_severity) {
+  SeverityResult log_severity_result = {};
 
   switch (log_severity) {
     case k::INFO:
-      log_severity_string = k::col::make_white("INFO");
+      log_severity_result.color = k::col::get_white();
+      log_severity_result.text = "INFO";
       break;
     case k::DEBUG:
-      log_severity_string = k::col::make_grey("DEBUG");
+      log_severity_result.color = k::col::get_grey();
+      log_severity_result.text = "DUBUG";
       break;
     case k::WARNING:
-      log_severity_string = k::col::make_yellow("WARNING");
+      log_severity_result.color = k::col::get_yellow();
+      log_severity_result.text = "WARNING";
       break;
     case k::ERROR:
-      log_severity_string = k::col::make_red("ERROR");
+      log_severity_result.color = k::col::get_red();
+      log_severity_result.text = "ERROR";
       break;
     case k::CRITICAL:
-      log_severity_string = k::col::make_bright_red("CRITICAL");
+      log_severity_result.color = k::col::get_bright_red();
+      log_severity_result.text = "CRITICAL";
       break;
 
     default: break;
   }
 
-  return log_severity_string;
+  return log_severity_result;
 }
 
 // Basic logging methods
 
 static void log(k::LogSeverity log_severity, const std::string message) {
+  SeverityResult severity_result = logSeverityResult(log_severity);
+
+  std::println("{}{:>9}{} {}", severity_result.color, severity_result.text, k::col::reset(), message);
 }
 
-void k::Logger::info(const std::string message) {
-  std::printf("%-8s %s\n", logSeverityToString(k::INFO).c_str(), message.c_str());
-}
+void k::Logger::info(const std::string message) 
+{log(k::INFO, message);}
 
-void k::Logger::debug(const std::string message) {
-  std::printf("%-8s %s\n", logSeverityToString(k::DEBUG).c_str(), message.c_str());
-}
+void k::Logger::debug(const std::string message) 
+{log(k::DEBUG, message);}
 
-void k::Logger::warning(const std::string message) {
-  std::printf("%-8s %s\n", logSeverityToString(k::WARNING).c_str(), message.c_str());
-}
+void k::Logger::warning(const std::string message) 
+{log(k::WARNING, message);}
 
-void k::Logger::error(const std::string message) {
-  std::printf("%-8s %s\n", logSeverityToString(k::ERROR).c_str(), message.c_str());
-}
+void k::Logger::error(const std::string message) 
+{log(k::ERROR, message);}
 
 void k::Logger::critical(const std::string message) {
-  std::printf("%50s %s\n", logSeverityToString(k::CRITICAL).c_str(), message.c_str());
+  log(k::CRITICAL, message);
   exit(-1);
 }
 
