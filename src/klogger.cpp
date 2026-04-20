@@ -107,8 +107,10 @@ void k::Logger::pushNewLog(const std::string message, k::LogSeverity log_severit
   _current_log.message = message; 
   
   _current_log.log_severity = log_severity;
-  _current_log.log_text = logSeverityResult(log_severity).text;
-  _current_log.log_color = logSeverityResult(log_severity).color;
+
+  SeverityResult severity_result = logSeverityResult(log_severity);
+  _current_log.log_text = severity_result.text;
+  _current_log.log_color = severity_result.color;
 }
 
 k::PullResult k::Logger::pullCurrentLog() 
