@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.2.0)
 
-project(klogger LANGUAGES CXX VERSION 4.17.26)
+project(klogger LANGUAGES CXX VERSION 4.20.26)
 
 add_library(${PROJECT_NAME} STATIC 
   src/klogger.cpp
