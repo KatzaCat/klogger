@@ -62,18 +62,24 @@ static SeverityResult logSeverityResult(k::LogSeverity log_severity) {
 
 // Basic logging methods
 
-static void log(k::LogSeverity log_severity, const std::string message) {
-  SeverityResult severity_result = logSeverityResult(log_severity);
-  
+static const std::string getTimeAsString() {
   std::time_t current_time = std::time(NULL);
+  // localtime is depricated, but ill look for a 
+  // alternitive latoer
   std::tm *local_time = std::localtime(&current_time);
 
   char buffer[255];
   std::strftime(buffer, 255, "%d/%m/%y | %H:%M:%S", local_time);
 
+  return buffer;
+}
+
+static void log(k::LogSeverity log_severity, const std::string message) {
+  SeverityResult severity_result = logSeverityResult(log_severity);
+   
   std::println(
       "[{}] {}{:>9}{} {}", 
-      buffer,
+      getTimeAsString(),
       severity_result.color, severity_result.text, k::col::reset(), 
       message);
 }
@@ -99,7 +105,10 @@ void k::Logger::critical(const std::string message) {
 
 void k::Logger::pushNewLog(const std::string message, k::LogSeverity log_severity) {
   _current_log.message = message; 
+  
   _current_log.log_severity = log_severity;
+  _current_log.log_text = logSeverityResult(log_severity).text;
+  _current_log.log_color = logSeverityResult(log_severity).color;
 }
 
 k::PullResult k::Logger::pullCurrentLog() 

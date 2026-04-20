@@ -13,7 +13,10 @@ namespace k {
 
   struct PullResult {
     std::string message = "";
+
     LogSeverity log_severity = INFO;
+    std::string log_text = "";
+    std::string log_color = "";
   };
 
   class Logger {
