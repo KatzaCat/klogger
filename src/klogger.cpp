@@ -1,5 +1,6 @@
 #include "klogger.hpp"
 
+#include <ctime>
 #include <print>
 #include <cstdlib>
 
@@ -63,8 +64,18 @@ static SeverityResult logSeverityResult(k::LogSeverity log_severity) {
 
 static void log(k::LogSeverity log_severity, const std::string message) {
   SeverityResult severity_result = logSeverityResult(log_severity);
+  
+  std::time_t current_time = std::time(NULL);
+  std::tm *local_time = std::localtime(&current_time);
 
-  std::println("{}{:>9}{} {}", severity_result.color, severity_result.text, k::col::reset(), message);
+  char buffer[255];
+  std::strftime(buffer, 255, "%d/%m/%y | %H:%M:%S", local_time);
+
+  std::println(
+      "[{}] {}{:>9}{} {}", 
+      buffer,
+      severity_result.color, severity_result.text, k::col::reset(), 
+      message);
 }
 
 void k::Logger::info(const std::string message) 
