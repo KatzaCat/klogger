@@ -2,7 +2,7 @@
 
 int main() {
   k::Logger::setOutputDestination(k::FILE);
-  k::Logger::setFileOutput("out.txt");
+  k::Logger::setOutputFile("out.txt");
 
   k::Logger::info("file test");
   k::Logger::error("something went wrong(not really) uwu");

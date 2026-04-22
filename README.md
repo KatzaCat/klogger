@@ -30,7 +30,7 @@ If necessary, you can also print to a file:
 
 ```c++
     k::Logger::setOutputDestination(k::FILE);
-    k::Logger::setFileOutputh("out.txt");
+    k::Logger::setOutputFile("out.txt");
 
     // do your logging
 ```

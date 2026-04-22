@@ -34,7 +34,7 @@ namespace k {
 
       // Dealing with logging to a file
 
-      static void setFileOutput(const std::string file);
+      static void setOutputFile(const std::string file);
       
       // Basic logging methods
 
