@@ -1,6 +1,8 @@
 #include "klogger.hpp"
 
 #include <ctime>
+#include <filesystem>
+#include <fstream>
 #include <print>
 #include <cstdlib>
 
@@ -20,13 +22,27 @@
  */
 
 // what will be used as the "pull" functions
-static k::PullResult _current_log = {};
+static k::LogInformation _current_log = {};
 
 // Stores the color and text sepaeately
 struct SeverityResult {
   std::string text = "";
   std::string color = "";
 };
+
+void k::Logger::setOutputDestination(k::OutputDestination destination) 
+{_current_log.destination = destination;}
+
+// Dealing with logging to a file
+
+void k::Logger::setFileOutput(const std::string file) {
+  _current_log.file_destination = file;
+  if (std::filesystem::exists(file)) {
+    // clears the file;
+    std::ofstream clear_file(file, std::ios::trunc);
+    if (clear_file.is_open()) {clear_file.close();}
+  }
+}
 
 // returns the log severity as a string, makes it so i dont have to type this all out manualy :3
 static SeverityResult logSeverityResult(k::LogSeverity log_severity) {
@@ -74,7 +90,7 @@ static const std::string getTimeAsString() {
   return buffer;
 }
 
-static void log(k::LogSeverity log_severity, const std::string message) {
+static void logToStdOut(k::LogSeverity log_severity, const std::string message) {
   SeverityResult severity_result = logSeverityResult(log_severity);
    
   std::println(
@@ -82,6 +98,34 @@ static void log(k::LogSeverity log_severity, const std::string message) {
       getTimeAsString(),
       severity_result.color, severity_result.text, k::col::reset(), 
       message);
+}
+
+static void logToFile(k::LogSeverity log_severity, const std::string message) {
+  SeverityResult severity_result = logSeverityResult(log_severity);
+   
+  std::ofstream file(_current_log.file_destination, std::ios::app);
+
+  if (!file.is_open()) {
+    std::println("Failed to open \"{}\"", _current_log.file_destination);
+    return;
+  }
+
+  file << std::format("[{}] {:>9} {}\n", getTimeAsString(), severity_result.text, message);
+
+  file.close();
+}
+
+static void log(k::LogSeverity log_severity, const std::string message) {
+  switch (_current_log.destination) {
+    case k::STD_OUT:
+      logToStdOut(log_severity, message);
+      break;
+    case k::FILE:
+      logToFile(log_severity, message); 
+      break;
+
+    default: break;
+  }
 }
 
 void k::Logger::info(const std::string message) 
@@ -113,7 +157,7 @@ void k::Logger::pushNewLog(const std::string message, k::LogSeverity log_severit
   _current_log.log_color = severity_result.color;
 }
 
-k::PullResult k::Logger::pullCurrentLog() 
+k::LogInformation k::Logger::pullCurrentLog() 
 {return _current_log;}
 
 void k::Logger::printCurrentLog() {

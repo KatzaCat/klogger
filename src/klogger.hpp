@@ -11,16 +11,31 @@ namespace k {
     CRITICAL
   };
 
-  struct PullResult {
+  enum OutputDestination {
+    STD_OUT,
+    FILE
+  };
+
+  struct LogInformation {
     std::string message = "";
 
+    OutputDestination destination = STD_OUT;
+    
     LogSeverity log_severity = INFO;
     std::string log_text = "";
     std::string log_color = "";
+
+    std::string file_destination = "";
   };
 
   class Logger {
     public:
+      static void setOutputDestination(OutputDestination destination);
+
+      // Dealing with logging to a file
+
+      static void setFileOutput(const std::string file);
+      
       // Basic logging methods
 
       static void info(const std::string message);
@@ -32,7 +47,7 @@ namespace k {
       // Push based logging
 
       static void pushNewLog(const std::string message, LogSeverity log_severity);
-      static PullResult pullCurrentLog();
+      static LogInformation pullCurrentLog();
       
       static void printCurrentLog();
   };
