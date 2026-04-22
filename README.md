@@ -14,18 +14,29 @@ The main idea is as follows:
     k::Logger::critical("your message"); // for a crash
 ```
 
-Another way you can use this:
+Although you are able to manually push a new log, then print it 
+whenever you feel necessary:
 
 ```c++
+    // run some code
+    // it fails
     k::Logger::pushNewLog("message", k::ERROR); // WARNING: will override previous pushed
     
-    // PullResult has 2 members; message of type std::string,
-    // and log_level
-    k::PullResult result = k::Logger::pullCurrentLog();
-
-    // you can also just print the most recent pushed log
+    // once applicable, ask to print the log
     k::Logger::printCurrentLog();
 ```
+
+If necessary, you can also print to a file:
+
+```c++
+    k::Logger::setOutputDestination(k::FILE);
+    k::Logger::setFileOutputh("out.txt");
+
+    // do your logging
+```
+
+This allows you to switch between logging to the standard output
+and a file.
 
 ## Testing
 
