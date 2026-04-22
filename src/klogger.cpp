@@ -81,7 +81,7 @@ static SeverityResult logSeverityResult(k::LogSeverity log_severity) {
 static const std::string getTimeAsString() {
   std::time_t current_time = std::time(NULL);
   // localtime is depricated, but ill look for a 
-  // alternitive latoer
+  // alternitive later
   std::tm *local_time = std::localtime(&current_time);
 
   char buffer[255];
