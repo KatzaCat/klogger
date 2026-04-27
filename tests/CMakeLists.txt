@@ -10,15 +10,14 @@ set_target_properties(KLE_critical PROPERTIES CXX_STANDARD 23)
 set_target_properties(KLE_file PROPERTIES CXX_STANDARD 23)
 set_target_properties(KLE_reformatting PROPERTIES CXX_STANDARD 23)
 
-target_link_libraries(KLE_basic PRIVATE klogger stdc++exp)
-target_link_libraries(KLE_push PRIVATE klogger stdc++exp)
-target_link_libraries(KLE_critical PRIVATE klogger stdc++exp)
-target_link_libraries(KLE_file PRIVATE klogger stdc++exp)
-target_link_libraries(KLE_reformatting PRIVATE klogger stdc++exp)
+target_link_libraries(KLE_basic PRIVATE klogger::klogger stdc++exp)
+target_link_libraries(KLE_push PRIVATE klogger::klogger stdc++exp)
+target_link_libraries(KLE_critical PRIVATE klogger::klogger stdc++exp)
+target_link_libraries(KLE_file PRIVATE klogger::klogger stdc++exp)
+target_link_libraries(KLE_reformatting PRIVATE klogger::klogger stdc++exp)
 
 add_test(KLT_basic KLE_basic)
 add_test(KLT_push KLE_push)
 add_test(KLT_critical KLE_critical) # Itended to fail
 add_test(KLT_file KLE_file)
 add_test(KLT_reformatting KLE_reformatting)
-
