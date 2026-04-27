@@ -37,11 +37,10 @@ void k::Logger::setOutputDestination(k::OutputDestination destination)
 
 void k::Logger::setOutputFile(const std::string file) {
         _current_log_information.file_destination = file;
-        if (std::filesystem::exists(file)) {
-                // clears the file;
-                std::ofstream clear_file(file, std::ios::trunc);
-                if (clear_file.is_open()) {clear_file.close();}
-        }
+        if (!std::filesystem::exists(file)) {return;}
+        // clears the file;
+        std::ofstream clear_file(file, std::ios::trunc);
+        if (clear_file.is_open()) {clear_file.close();}
 }
 
 // returns the log severity as a string, makes it so i dont have to type this all out manualy :3
@@ -105,10 +104,8 @@ static void _logToFile(k::LogSeverity log_severity, const std::string message) {
 
         std::ofstream file(_current_log_information.file_destination, std::ios::app);
 
-        if (!file.is_open()) {
-                std::println("Failed to open \"{}\"", _current_log_information.file_destination);
-                return;
-        }
+        if (!file.is_open())
+        {std::println("Failed to open \"{}\"", _current_log_information.file_destination); return;}
 
         file << std::format("[{}] {:>9} {}\n", _getTimeAsString(), severity_result.text, message);
 
@@ -120,6 +117,7 @@ static void _log(k::LogSeverity log_severity, const std::string message) {
                 case k::STD_OUT:
                 _logToStdOut(log_severity, message);
                 break;
+
                 case k::FILE:
                 _logToFile(log_severity, message);
                 break;
@@ -141,8 +139,8 @@ void k::Logger::error(const std::string message)
 {_log(k::ERROR, message);}
 
 void k::Logger::critical(const std::string message) {
-  _log(k::CRITICAL, message);
-  exit(-1);
+        _log(k::CRITICAL, message);
+        exit(-1);
 }
 
 // Push based logging
@@ -165,15 +163,19 @@ void k::Logger::printCurrentLog() {
                 case k::INFO:
                 k::Logger::info(_current_log_information.message);
                 break;
+
                 case k::DEBUG:
                 k::Logger::debug(_current_log_information.message);
                 break;
+
                 case k::WARNING:
                 k::Logger::warning(_current_log_information.message);
                 break;
+
                 case k::ERROR:
                 k::Logger::error(_current_log_information.message);
                 break;
+
                 case k::CRITICAL:
                 k::Logger::critical(_current_log_information.message);
                 break;
