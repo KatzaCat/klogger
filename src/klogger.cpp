@@ -104,8 +104,10 @@ static void _logToFile(k::LogSeverity log_severity, const std::string message) {
 
         std::ofstream file(_current_log_information.file_destination, std::ios::app);
 
-        if (!file.is_open())
-        {std::println("Failed to open \"{}\"", _current_log_information.file_destination); return;}
+        if (!file.is_open()) {
+                std::println("Failed to open \"{}\"", _current_log_information.file_destination);
+                return;
+        }
 
         file << std::format("[{}] {:>9} {}\n", _getTimeAsString(), severity_result.text, message);
 
@@ -181,6 +183,5 @@ void k::Logger::printCurrentLog() {
                 break;
 
                 default: break;
-
         }
 }
