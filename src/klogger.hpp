@@ -3,52 +3,52 @@
 #include <string>
 
 namespace k {
-  enum LogSeverity {
-    INFO,
-    DEBUG,
-    WARNING,
-    ERROR,
-    CRITICAL
-  };
+        enum LogSeverity {
+                INFO,
+                DEBUG,
+                WARNING,
+                ERROR,
+                CRITICAL
+        };
 
-  enum OutputDestination {
-    STD_OUT,
-    FILE
-  };
+        enum OutputDestination {
+                STD_OUT,
+                FILE
+        };
 
-  struct LogInformation {
-    std::string message = "";
+        struct LogInformation {
+                std::string message = "";
 
-    OutputDestination destination = STD_OUT;
-    
-    LogSeverity log_severity = INFO;
-    std::string log_text = "";
-    std::string log_color = "";
+                OutputDestination destination = STD_OUT;
 
-    std::string file_destination = "";
-  };
+                LogSeverity log_severity = INFO;
+                std::string log_text = "";
+                std::string log_color = "";
 
-  class Logger {
-    public:
-      static void setOutputDestination(OutputDestination destination);
+                std::string file_destination = "";
+        };
 
-      // Dealing with logging to a file
+        class Logger {
+                public:
+                static void setOutputDestination(OutputDestination destination);
 
-      static void setOutputFile(const std::string file);
-      
-      // Basic logging methods
+                // Dealing with logging to a file
 
-      static void info(const std::string message);
-      static void debug(const std::string message);
-      static void warning(const std::string message);
-      static void error(const std::string message);
-      static void critical(const std::string message);
+                static void setOutputFile(const std::string file);
 
-      // Push based logging
+                // Basic logging methods
 
-      static void pushNewLog(const std::string message, LogSeverity log_severity);
-      static LogInformation pullCurrentLog();
-      
-      static void printCurrentLog();
-  };
+                static void info(const std::string message);
+                static void debug(const std::string message);
+                static void warning(const std::string message);
+                static void error(const std::string message);
+                static void critical(const std::string message);
+
+                // Push based logging
+
+                static void pushNewLog(const std::string message, LogSeverity log_severity);
+                static LogInformation pullCurrentLog();
+
+                static void printCurrentLog();
+        };
 }

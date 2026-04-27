@@ -7,32 +7,32 @@ Klogger is a simple(ish) logging system for the c++ lanuage!
 The main idea is as follows:
 
 ```c++
-    k::Logger::info("your message"); // for basic information
-    k::Logger::debug("your message"); // for debuggin
-    k::Logger::warning("your message"); // for warning the user
-    k::Logger::error("your message"); // for throwing a catchable error
-    k::Logger::critical("your message"); // for a crash
+        k::Logger::info("your message"); // for basic information
+        k::Logger::debug("your message"); // for debuggin
+        k::Logger::warning("your message"); // for warning the user
+        k::Logger::error("your message"); // for throwing a catchable error
+        k::Logger::critical("your message"); // for a crash
 ```
 
 Although you are able to manually push a new log, then print it 
 whenever you feel necessary:
 
 ```c++
-    // run some code
-    // it fails
-    k::Logger::pushNewLog("message", k::ERROR); // WARNING: will override previous pushed
-    
-    // once applicable, ask to print the log
-    k::Logger::printCurrentLog();
+        // run some code
+        // it fails
+        k::Logger::pushNewLog("message", k::ERROR); // WARNING: will override previous pushed
+        
+        // once applicable, ask to print the log
+        k::Logger::printCurrentLog();
 ```
 
 If necessary, you can also print to a file:
 
 ```c++
-    k::Logger::setOutputDestination(k::FILE);
-    k::Logger::setOutputFile("out.txt");
-
-    // do your logging
+        k::Logger::setOutputDestination(k::FILE);
+        k::Logger::setOutputFile("out.txt");
+        
+        // do your logging
 ```
 
 This allows you to switch between logging to the standard output
