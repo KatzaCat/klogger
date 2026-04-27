@@ -38,6 +38,7 @@ void k::Logger::setOutputDestination(k::OutputDestination destination)
 void k::Logger::setOutputFile(const std::string file) {
         _current_log_information.file_destination = file;
         if (!std::filesystem::exists(file)) {return;}
+
         // clears the file;
         std::ofstream clear_file(file, std::ios::trunc);
         if (clear_file.is_open()) {clear_file.close();}
