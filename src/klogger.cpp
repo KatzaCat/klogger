@@ -27,7 +27,7 @@ static k::LogInformation _current_log_information = {};
 // Stores the color and text sepaeately
 struct SeverityResult {
         std::string text = "";
-        int color = 0;
+        std::string color = "";
 };
 
 void k::Logger::setOutputDestination(k::OutputDestination destination)
@@ -50,23 +50,23 @@ static SeverityResult _logSeverityResult(k::LogSeverity log_severity) {
 
         switch (log_severity) {
                 case k::INFO:
-                log_severity_result.color = k::AsciiColor::WHITE;
+                log_severity_result.color = k::AsciiColor::getCodeAsString(k::AsciiColor::WHITE);
                 log_severity_result.text = "INFO";
                 break;
                 case k::DEBUG:
-                log_severity_result.color = k::AsciiColor::BRIGHT_GREY;
+                log_severity_result.color = k::AsciiColor::getCodeAsString(k::AsciiColor::BRIGHT_GREY);
                 log_severity_result.text = "DUBUG";
                 break;
                 case k::WARNING:
-                log_severity_result.color = k::AsciiColor::YELLOW;
+                log_severity_result.color = k::AsciiColor::getCodeAsString(k::AsciiColor::YELLOW);
                 log_severity_result.text = "WARNING";
                 break;
                 case k::ERROR:
-                log_severity_result.color = k::AsciiColor::RED;
+                log_severity_result.color = k::AsciiColor::getCodeAsString(k::AsciiColor::RED);
                 log_severity_result.text = "ERROR";
                 break;
                 case k::CRITICAL:
-                log_severity_result.color = k::AsciiColor::BRIGHT_RED;
+                log_severity_result.color = k::AsciiColor::getCodeAsString(k::AsciiColor::BRIGHT_RED);
                 log_severity_result.text = "CRITICAL";
                 break;
 
@@ -94,10 +94,15 @@ static void _logToStdOut(k::LogSeverity log_severity, const std::string message)
         SeverityResult severity_result = _logSeverityResult(log_severity);
 
         std::println(
-                "[{}] \e[{}m{:>9}\e[{}m {}",
+                "[{}] {}{:>9}{} {}",
                 _getTimeAsString(),
-                severity_result.color, severity_result.text, k::AsciiColor::RESET,
-                message);
+
+                severity_result.color,
+                severity_result.text,
+                k::AsciiColor::getCodeAsString(k::AsciiColor::RESET),
+
+                message
+        );
 }
 
 static void _logToFile(k::LogSeverity log_severity, const std::string message) {
