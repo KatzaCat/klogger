@@ -24,7 +24,7 @@ FetchContent_MakeAvailable(kasciicolor)
 
 add_library(klogger::klogger ALIAS ${PROJECT_NAME})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC kasciicolor::kasciicolor)
+target_link_libraries(${PROJECT_NAME} PRIVATE kasciicolor::kasciicolor)
 
 if(KL_ISTESTING)
         enable_testing()
