@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 4.2.0)
 project(klogger LANGUAGES CXX VERSION 4.21.26)
 
 add_library(${PROJECT_NAME} STATIC src/klogger.cpp)
+# Get rid of the "lib" prefix
+set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
